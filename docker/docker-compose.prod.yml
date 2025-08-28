@@ -72,7 +72,7 @@ services:
       POSTGRES_DB: ${DB_DATABASE_NAME}
       POSTGRES_INITDB_ARGS: '--data-checksums'
     volumes:
-      - ${UPLOAD_LOCATION}/postgres:/var/lib/postgresql/data
+      - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
     ports:
       - 5432:5432
     shm_size: 128mb
@@ -82,7 +82,7 @@ services:
   immich-prometheus:
     container_name: immich_prometheus
     ports:
-      - 9090:9090
+      - 9099:9090
     image: prom/prometheus@sha256:63805ebb8d2b3920190daf1cb14a60871b16fd38bed42b857a3182bc621f4996
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
@@ -92,7 +92,7 @@ services:
   # add data source for http://immich-prometheus:9090 to get started
   immich-grafana:
     container_name: immich_grafana
-    command: ['./run.sh', '-disable-reporting']
+    command: [ './run.sh', '-disable-reporting' ]
     ports:
       - 3000:3000
     image: grafana/grafana:12.1.1-ubuntu@sha256:d1da838234ff2de93e0065ee1bf0e66d38f948dcc5d718c25fa6237e14b4424a
